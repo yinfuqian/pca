@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block body %}
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>云资产管理</h2>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href={% url 'index' %}>主页</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="{% url 'cloud_servers_list' %}">云资产管理</a>
+                </li>
+                <li class="breadcrumb-item active">
+                    <a href="{% url 'cloud_servers_list' %}">服务器管理</a>
+                </li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="ibox-content">
+        <div class="alert alert-danger alert-dismissable">
+            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+            此页面不可编辑,如有数据错误请到修改页面修改即可!!!
+            <a href="javascript:history.back(-1)" type="submit">返回上一页</a>
+        </div>
+    </div>
+    <div class="bounceInRight">
+        {% for info in data %}
+            <span>业务类型:&nbsp;&nbsp;&nbsp;{{ info.cloud_server_project_type }}</span><br/>
+            <span>成本归属:&nbsp;&nbsp;&nbsp;{{ info.cloud_server_cost_env }}</span><br/>
+            <span>是否核对:&nbsp;&nbsp;&nbsp;{{ info.cloud_server_check }}</span><br/>
+            <span>登陆方式:&nbsp;&nbsp;&nbsp;{{ info.cloud_server_login_type }}</span><br/>
+            <span>云归属:&nbsp;&nbsp;&nbsp;{{ info.cloud_server_cloud_belong }}</span><br/>
+            <span>地域:&nbsp;&nbsp;&nbsp;{{ info.cloud_server_city }}</span><br/>
+            <span>实例ID:&nbsp;&nbsp;&nbsp;{{ info.cloud_server_cloud_id }}</span><br/>
+            <span>内网SSH地址:&nbsp;&nbsp;&nbsp;<a
+                    href="https://go.in.wezhuiyi.com/client/login/index">{{ info.cloud_server_ssh_ip }}</a></span><br/>
+            <span>公网IP:&nbsp;&nbsp;&nbsp;{{ info.cloud_server_pub_ip }}</span><br/>
+            <span>责任人:&nbsp;&nbsp;&nbsp;{{ info.cloud_server_owner }}</span><br/>
+            <span>环境:&nbsp;&nbsp;&nbsp;{{ info.cloud_server_env_type }}</span><br/>
+            <span>公有云版本:&nbsp;&nbsp;&nbsp;{{ info.cloud_server_cloud_type }}</span><br/>
+            <span>项目区域:&nbsp;&nbsp;&nbsp;{{ info.cloud_server_project_region }}</span><br/>
+            <span>项目归属/项目简称_项目编码:&nbsp;&nbsp;&nbsp;{{ info.cloud_server_project_env }}</span><br/>
+            <span>项目编号:&nbsp;&nbsp;&nbsp;{{ info.cloud_server_number }}</span><br/>
+            <span>项目名称:&nbsp;&nbsp{{ info.cloud_server_all_name }}</span><br/>
+            <span>月成本:&nbsp;&nbsp;&nbsp;{{ info.cloud_server_cost_money }}</span><br/>
+            <span>产品类型:&nbsp;&nbsp;&nbsp;{{ info.cloud_product_type }}</span><br/>
+            <span>公有云实例名:&nbsp;&nbsp;&nbsp;{{ info.cloud_server_cloud_name }}</span><br/>
+            <span>cpu:&nbsp;&nbsp;&nbsp;{{ info.cloud_server_cpus }}</span><br/>
+            <span>cpu卡数(个):&nbsp;&nbsp;&nbsp;{{ info.cloud_server_cpus_car }}</span><br/>
+            <span>内存(GB):&nbsp;&nbsp;&nbsp;{{ info.cloud_server_mem }}</span><br/>
+            <span>系统盘(GB):&nbsp;&nbsp;&nbsp;{{ info.cloud_server_sys_disks }}</span><br/>
+            <span>数据盘(GB):&nbsp;&nbsp;&nbsp;{{ info.cloud_server_data_disks }}</span><br/>
+            <span>创建时间:&nbsp;&nbsp;&nbsp;{{ info.created_tm }}</span><br/>
+            <span>过期时间:&nbsp;&nbsp;&nbsp;{{ info.cloud_server_expiration_time }}</span><br/>
+            <span>运行状态:&nbsp;&nbsp;&nbsp;{{ info.cloud_server_status }}</span><br/>
+            <span>备注1:&nbsp;&nbsp;&nbsp;{{ info.remark }}</span><br/>
+            <span>备注2:&nbsp;&nbsp;&nbsp;{{ info.cloud_server_mark_tmp_2 }}</span><br/>
+            <span>备注3:&nbsp;&nbsp;&nbsp;{{ info.cloud_server_mark_tmp_3 }}</span><br/>
+            <span>备注4:&nbsp;&nbsp;&nbsp;{{ info.cloud_server_mark_tmp_4 }}</span><br/>
+        {% endfor %}
+    </div>
+    </div>
+{% endblock %}

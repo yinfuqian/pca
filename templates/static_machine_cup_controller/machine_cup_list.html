@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% block load_css %}
+    <link href="/static/css/plugins/footable/footable.core.css" rel="stylesheet">
+{% endblock %}
+{% block body %}
+    <div class="pace-progress-inner"></div>
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>业务中心</h2>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href={% url 'index' %}>主页</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="{% url 'index' %}">硬件资产管理</a>
+                </li>
+                <li class="breadcrumb-item active">
+                    <strong><a href="{% url 'machine_rooms_List' %}">机柜管理</a></strong>
+                </li>
+
+            </ol>
+        </div>
+    </div>
+    <div class="row m-b-sm m-t-sm">
+
+        <div class="input-group col-md-11">
+            <form class="navbar-form" method='get' action='{% url 'machine_cup_search' %}'>
+                <input type='search' name='machine_cupb_search' placeholder='名称' required
+                       class="input-sm">
+                <button type='submit' class="btn btn-primary">搜索</button>
+            </form>
+            <div>&nbsp;</div>
+            <div>
+                <a href="{% url 'machine_cup_create' %}" class="btn btn-primary">创建机柜</a>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox ">
+                    <div class="ibox-content">
+
+
+                        <table class="footable table table-stripped toggle-arrow-tiny tablet breakpoint footable-loaded"
+                               id="num">
+                            <thead>
+                            <tr>
+                                <th class="text-center">ID</th>
+                                <th class="text-center">名称</th>
+                                <th class="text-center">所属机房</th>
+                                <th class="text-center">备注</th>
+                                <th class="text-center">操作</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for info in data %}
+                                <tr>
+                                    <td class="text-center">{{ info.id }}</td>
+                                    <td class="text-center">{{ info.name }}</td>
+                                    <td class="text-center">{{ info.static_room_name }}</td>
+                                    <td class="text-center">{{ info.remark }}</td>
+                                    <td class="text-center">
+                                        <a type="button" class="btn-primary btn-sm"
+                                           href="{% url 'machine_cup_update' %}?id={{ info.id }}">更新</a>
+                                        <a type="button" class="btn btn-danger btn-sm"
+                                           onclick="server_delete({{ info.id }})">删除</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+    </div>
+{% endblock %}
+{% block load_js %}
+    <script type="text/javascript">
+        window.onload = function () {
+            var oTable = document.getElementById("num");
+            for (var i = 0; i < oTable.rows.length; i++) {
+                oTable.rows[i + 1].cells[0].innerHTML = (i + 1);
+            }
+        }
+    </script>
+
+    <script>
+        function server_delete(id) {
+            if (confirm('确定删除吗？')) {
+                $.get("{% url 'machine_cup_delete' %}?id=" + id, function (data) {
+                    if (data.status == 0) {
+                        alert("删除成功")
+                        location.href = "{% url 'machine_cup_list' %}"
+                    } else {
+                        alert("删除失败")
+                        location.href = "{% url 'machine_cup_list' %}"
+                    }
+                })
+            }
+        }
+    </script>
+    <script>
+        function server_list(id) {
+            $.get("{% url 'machine_cup_update' %}?id=" + id, function (data) {
+                    if (data.status == 0) {
+                        alert("更新成功")
+                        location.href = "{% url 'machine_cup_list' %}"
+                    } else {
+                        alert("更新失败")
+                        location.href = "{% url 'machine_cup_list' %}"
+                    }
+                }
+            )
+        }
+    </script>
+
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block body %}
+
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>业务中心</h2>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href={% url 'index' %}>主页</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="{% url 'index' %}">云资产管理</a>
+                </li>
+                <li class="breadcrumb-item active">
+                    <strong><a href="{% url 'cloud_cap_list' %}">云类型管理</a></strong>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="ibox-content">
+        <div class="row m-b-sm m-t-sm">
+            <div class="col-md-11">
+                 <div class="input-group">
+                    <form class="navbar-form" method='get' action='{% url 'could_cap_search' %}'>
+                        <input type='search' name='could_cap_search' placeholder='名称' required
+                               class="input-sm">
+                        <button type='submit' class="btn btn-primary">搜索</button>
+                    </form>
+                    <div>&nbsp;</div>
+                    <div>
+                        <a href="{% url 'cloud_cap_create' %}" class="btn btn-primary">创建云类型</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="ibox-content">
+        <table class="footable table table-stripped toggle-arrow-tiny" id="num">
+            <thead>
+            <tr>
+                <th class="text-center">ID</th>
+                <th class="text-center">名称</th>
+                <th class="text-center">创建时间</th>
+                <th class="text-center">更新时间</th>
+                <th class="text-center">备注</th>
+                <th class="text-center">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-center">{{ info.id }}</td>
+                    <td class="text-center">{{ info.name }}</td>
+                    <td class="text-center">{{ info.created_tm }}</td>
+                    <td class="text-center">{{ info.updated_tm }}</td>
+                    <td class="text-center">{{ info.remark }}</td>
+                    <td class="text-center">
+                        <a type="button" class="btn-primary btn-sm"
+                           href="{% url 'cloud_cap_update' %}?id={{ info.id }}">
+                            更新 </a>
+                        <a type="button" class="btn btn-danger btn-sm" onclick="cloud_cap_delete({{ info.id }})">
+                            删除 </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+{% block load_js %}
+    <script src="/static/js/plugins/sweetalert/sweetalert.min.js"></script>
+    <script>
+        function cloud_cap_delete(id) {
+            if (confirm('确定删除吗？')) {
+                $.get("{% url 'cloud_cap_delete' %}?id=" + id, function (data) {
+                    if (data.status == 0) {
+                        alert("删除成功")
+                        location.href = "{% url 'cloud_cap_list' %}"
+                    } else {
+                        alert("删除失败")
+                        location.href = "{% url 'cloud_cap_list' %}"
+                    }
+                })
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        window.onload = function () {
+            var oTable = document.getElementById("num");
+            for (var i = 0; i < oTable.rows.length; i++) {
+                oTable.rows[i + 1].cells[0].innerHTML = (i + 1);
+            }
+        }
+    </script>
+{% endblock %}

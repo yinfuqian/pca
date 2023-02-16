@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block body %}
+            <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>业务中心</h2>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href={% url 'index' %}>主页</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="{% url 'index' %}"硬件资产管理</a>
+                </li>
+                <li class="breadcrumb-item active">
+                    <a href="{% url 'machine_rooms_List' %}">机房</a>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="ibox ">
+            <div>
+                <h4>更新机房: {{ cloud_obj.name }}</h4>
+            </div>
+            <form class="form-horizontal" id="submit_form">
+                {% csrf_token %}
+                <div><input type="text" style="display: none" name="id"
+                            value="{{ cloud_obj.id }}"></div>
+                <div class="hr-line-dashed"></div>
+                <div class="hr-line-dashed"></div>
+                <div class="form-group  row"><label class="col-sm-2 col-form-label">名称</label>
+                    <div class="col-sm-10"><input type="text" class="form-control" name="name" value="{{ cloud_obj.name }}"></div>
+                </div>
+                <div class="hr-line-dashed"></div>
+                <div class="form-group  row"><label class="col-sm-2 col-form-label">备注</label>
+                    <div class="col-sm-10"><input type="text" class="form-control" name="remark" value="{{ cloud_obj.remark }}"></div>
+                </div>
+
+                <div class="hr-line-dashed"></div>
+                <div class="form-group">
+                    <div class="col-sm-4 col-sm-offset-2">
+                        <a class="btn btn-warning btn-sm " href="javascript:history.back(-1)" type="submit">取消</a>
+                        <button class="btn btn-primary btn-sm" type="submit">保存更改</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
+{% endblock %}
+
+{% block load_js %}
+    <script src="/static/js/plugins/validate/jquery.validate.min.js"></script>
+    <script src="/static/js/plugins/validate/messages_zh.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#submit_form").validate({
+                rules: {
+                   name: {
+                        required: true
+                    }
+                }, submitHandler: function () {
+                    var str = $('#submit_form').serialize();
+                    $.post('{% url 'machine_rooms_update' %}', str, function (res) {
+                        console.log(res)
+                        if (res.status == 0) {
+                            alert('更新成功')
+                            location.href = "{% url 'machine_rooms_List' %}"
+                        } else {
+                            alert('更新失败')
+                            location.href = "{% url 'machine_rooms_List' %}"
+                        }
+                    })
+                }
+            })
+        })
+    </script>
+{% endblock %}

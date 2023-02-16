@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+{% block body %}
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>业务中心</h2>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href={% url 'index' %}>主页</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="{% url 'index' %}">系统管理</a>
+                </li>
+                <li class="breadcrumb-item active">
+                    <strong><a href="{% url 'user_list' %}">用户管理</a></strong>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <!-- 搜索栏 -->
+    <div class="ibox-content">
+        <div class="row m-b-sm m-t-sm">
+            <div class="col-md-11">
+                <div class="input-group">
+                    <form class="navbar-form" method='get' action='{% url 'user_search' %}'>
+                        <input type='search' name='user_name' placeholder='用户名' required
+                               class="input-sm">
+                        <button type='submit' class="btn btn-primary">搜索</button>
+                    </form>
+                    <div>&nbsp;</div>
+                    <div>
+                        <a href="{% url 'user_create' %}" class="btn btn-primary">创建新用户</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div>
+</div>
+
+
+    <div class="ibox-content">
+        <table class="table table-stripped table-bordered" id="Users">
+            <thead>
+            <tr>
+                <th class="text-center">ID</th>
+                <th class="text-center">用户名</th>
+                <th class="text-center">角色</th>
+                <th class="text-center">电话</th>
+                <th class="text-center">邮箱</th>
+                <th class="text-center">是否为管理员</th>
+                <th class="text-center">激活状态</th>
+                <th class="text-center">最后登陆</th>
+                <th class="text-center">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for info in pcausercontroller_list %}
+                <tr>
+                <l>
+                    <td class="text-center">{{ info.id }}</td>
+                    <td class="text-center">{{ info.username }}</td>
+                    <td class="text-center">{{ info.role }}</td>
+                    <td class="text-center">{{ info.phone }}</td>
+                    <td class="text-center">{{ info.email }}</td>
+                    {% if info.is_superuser == 1 %}
+                        <td class="text-center"><i class="fa fa-circle text-navy"></i></td>
+                    {% else %}
+                        <td class="text-center"><i class="fa fa-circle text-danger"></i></td>
+                    {% endif %}
+
+                    {% if info.is_active == 1 %}
+                        <td class="text-center"><i class="fa fa-circle text-navy"></i></td>
+                    {% else %}
+                        <td class="text-center"><i class="fa fa-circle text-danger"></i></td>
+                    {% endif %}
+                    <td class="text-center">{{ info.last_login }}</td>
+                    <td class="text-center">
+                        <a type="button" class="btn btn-success btn-sm" onclick="user_status({{ info.id }})">启用</a>
+                        <a type="button" class="btn btn-warning btn-sm" onclick="user_status({{ info.id }})">禁用</a>
+                        <a type="button" class="btn-primary btn-sm" href="{% url 'user_update' %}?id={{ info.id }}">
+                            更新 </a>
+                        <a type="button" class="btn btn-danger btn-sm" onclick="user_delete({{ info.id }})"> 删除 </a>
+                    </td>
+                </l>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        {#    分页实现#}
+        <div>
+            <center>
+                <div class="btn-group" id="test">
+                    {% if page_obj.has_previous %}
+                        <a type="button" class="btn btn-white"
+                           href="{% url 'user_list' %}?page={{ page_obj.previous_page_number }}"><i
+                                class="fa fa-chevron-left"></i></a>
+                    {% endif %}
+
+                    {% for page in page_range %}
+                        {% if page_obj.number == page %}
+                            <a class="btn btn-white active" href="{% url 'user_list' %}?page={{ page }}&id={{ test }}"
+                               id="id">{{ page }}{{ test }}
+                            </a>
+                        {% else %}
+                            <a class="btn btn-white" href="{% url 'user_list' %}?page={{ page }}&id={{ id }}" id="test">
+                                {{ page }}{{ test }}</a>
+                        {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                        <a type="button" class="btn btn-white" id="id"
+                           href="{% url 'user_list' %}?page={{ page_obj.next_page_number }}"><i
+                                class="fa fa-chevron-right"></i></a>
+                    {% endif %}
+                </div>
+            </center>
+        </div>
+    </div>
+{% endblock %}
+{% block load_js %}
+    <script>
+    $(function(){
+    $('#top_search').on('input',function(){
+        var val = $(this).val()
+        if(!val){
+            $("#search_tips_con").html('')
+            $("#search_tips_con").hide();
+            return false;
+        }
+        $.ajax({
+            url:'/users/search/?q='+val, success(res){
+                if(res.code === 200){
+                    $("#search_tips_con").show();
+                    var htmlStr = '';
+                    for(var i=0;i<res.data.length;i++){
+                        htmlStr += '<li><a href="/goods/detail/'+res.data[i].id+'">'+ res.data[i].name+'</a></li>'
+                    }
+                    if(!htmlStr){
+                        htmlStr = '<li><a href="javascript:;">没有搜索到内容</a></li>'
+                    }
+                    $("#search_tips_con").html(htmlStr);
+                }
+            }
+        })
+    })
+})
+
+    </script>
+    <script src="/static/js/plugins/jqGrid/jquery.jqGrid.min.js"></script>
+    <script>
+        window.onload = function a() {
+            let oTable = document.getElementById("Users");
+            let a = window.location.href.split("&")
+            console.log(a)
+            console.log(document.getElementById("id").value)
+            console.log(oTable.rows.length);
+            for (let i = 0; i < oTable.rows.length; i++) {
+                oTable.rows[i + 1].cells[0].innerHTML = (i + 1);
+            }
+            let Tlength = oTable.rows.length;
+            document.getElementById("test").innerHtml = Tlength;
+            {#return Tlength;#}
+        }
+    </script>
+    <script>
+        function user_delete(id) {
+            if (confirm('确定删除吗？')) {
+                $.get("{% url 'user_delete' %}?id=" + id, function (data) {
+                    if (data.status == 0) {
+                        alert("删除成功")
+                        location.href = "{% url 'user_list' %}"
+                    } else {
+                        alert("删除失败")
+                        location.href = "{% url 'user_list' %}"
+                    }
+                })
+            }
+        }
+
+    </script>
+    <script>
+        function user_status(id) {
+            $.get("{% url 'user_status' %}?id=" + id, function (data) {
+                    if (data.status == 0) {
+                        alert("更新成功")
+                        location.href = "{% url 'user_list' %}"
+                    } else {
+                        alert("更新失败")
+                        location.href = "{% url 'user_list' %}"
+                    }
+                }
+            )
+        }
+    </script>
+{% endblock %}
