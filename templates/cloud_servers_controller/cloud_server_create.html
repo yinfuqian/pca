@@ -34,6 +34,7 @@
                     <div class="col-sm-10"><select class="form-control m-b" name="cloud_server_project_type">
                         <option>新业务</option>
                         <option>软件业务</option>
+                        <option>其他</option>
                     </select></div>
                 </div>
                 {#                成本归属--> 项目组#}
@@ -46,8 +47,9 @@
                 {#                是否核对#}
                 <div class="form-group row"><label class="col-sm-2 col-form-label">是否核对</label>
                     <div class="col-sm-10"><select class="form-control m-b" name="cloud_server_check">
-                        <option>是</option>
-                        <option>否</option>
+                        <option>等待开发确认</option>
+                        <option>等待测试确认</option>
+                        <option>已核对</option>
                     </select></div>
                 </div>
                 {#                登录方式#}
@@ -117,6 +119,7 @@
                                                    name="cloud_server_project_region">
                         <option>南区</option>
                         <option>北区</option>
+                        <option>其他</option>
                     </select></div>
                 </div>
                 {#                项目归属--> 项目环境#}

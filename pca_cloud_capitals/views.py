@@ -114,9 +114,15 @@ class CloudServersControllerSearchView(View):
     def get(self, request):
         data = request.GET
         try:
-            return render(request, 'cloud_servers_controller/cloud_servers_search.html', {
-                'info': CloudServersController.objects.get(
-                    cloud_server_cloud_id=request.GET.get('cloud_servers_search'))})
+            print(data)
+            if data.get('cloud_servers_search') == "":
+                return render(request, 'cloud_servers_controller/cloud_servers_search.html', {
+                    'info': CloudServersController.objects.get(
+                        cloud_server_ssh_ip=request.GET.get('cloud_servers_search_ip'))})
+            else:
+                return render(request, 'cloud_servers_controller/cloud_servers_search.html', {
+                    'info': CloudServersController.objects.get(
+                        cloud_server_cloud_id=request.GET.get('cloud_servers_search'))})
         except Exception as e:
             print(e)
             return render(request, 'cloud_servers_controller/cloud_servers_list.html')

@@ -26,7 +26,10 @@
             <div class="col-md-11">
                  <div class="input-group">
                     <form class="navbar-form" method='get' action='{% url 'cloud_servers_search' %}'>
-                        <input type='search' name='cloud_servers_search' placeholder='实例ID' required
+                        <input type='search' name='cloud_servers_search' placeholder='实例ID'
+                               class="input-sm">
+                        <button type='submit' class="btn btn-primary">搜索</button>
+                                                <input type='search' name='cloud_servers_search_ip' placeholder='内网ip'
                                class="input-sm">
                         <button type='submit' class="btn btn-primary">搜索</button>
                     </form>

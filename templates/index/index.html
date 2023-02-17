@@ -1,4 +1,179 @@
 {% extends 'base.html' %}
 {% block body %}
-<h1>基础</h1>
+    <div id="wrapper">
+        <div class="wrapper wrapper-content">
+            <div class="row">
+                <div class="col-lg-3" id="users">
+                    <div class="ibox ">
+                        <div class="ibox-title">
+                            <span class="label label-success float-right">用户量</span>
+                        </div>
+                        <div class="ibox-content">
+                            <h1 class="no-margins">386,200</h1>
+                            <div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i></div>
+                            <small>用户登录量</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="ibox ">
+                        <div class="ibox-title">
+                            <span class="label label-success float-right">云服务器数量</span>
+
+                        </div>
+                        <div class="ibox-content">
+                            <h1 class="no-margins">386,200</h1>
+                            <div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i></div>
+                            <small>在线数量</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="ibox ">
+                        <div class="ibox-title">
+                            <span class="label label-success float-right">硬件服务器数量</span>
+                        </div>
+                        <div class="ibox-content">
+                            <h1 class="no-margins">386,200</h1>
+                            <div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i></div>
+                            <small>在线数量</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-11">
+                    <div class="ibox ">
+                        <ul class="stat-list m-t-lg">
+                            <li>
+                                <h3 class="no-margins">2,346</h3>
+                                <small>年度花费(￥)</small>
+                                <div class="progress progress-mini">
+                                    <div class="progress-bar" style="width: 48%;"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <h3 class="no-margins ">4,422</h3>
+                                <small>月度花费(￥)</small>
+                                <div class="progress progress-mini">
+                                    <div class="progress-bar" style="width: 60%;"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    {#    <div id="main" style="width:80%;height:400px;margin: 0 auto"></div>#}
+    <!-- ;margin-top:80px;控制距离顶部距离 -->
+    <div id="main2" style="width:80%;height:400px;margin: 0 auto"></div>
+{% endblock %}
+
+{% block load_js %}
+    <script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
+    <script type="text/javascript">
+        function getIntPorjectGroupB() {
+            $.ajax({
+                type: "get",
+                dataType: "json",
+                url: "/api/project_group_list/",
+                success: function (data) {
+                    return data;
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        }
+
+        // 路径配置
+        require.config({
+            paths: {
+                echarts: 'http://echarts.baidu.com/build/dist'
+            }
+        });
+        var abc = getIntPorjectGroupB();
+        console.log("12131")
+        console.log("a" + abc);
+        // 使用
+        require(
+            [
+                'echarts',
+                'echarts/chart/bar', // 使用柱状图就加载bar模块，按需加载
+                {#'echarts/chart/line'#}
+            ],
+            function (ec) {
+                // 基于准备好的dom，初始化echarts图表
+                {#var myChart = ec.init(document.getElementById('main'));#}
+                var myChart2 = ec.init(document.getElementById('main2'));
+                var option2 = {
+                    title: {
+                        text: '各项目组所占机器量',
+                        textStyle: { //主标题文本样式{"fontSize": 18,"fontWeight": "bolder","color": "#333"}
+                            fontSize: 14,
+                            fontStyle: 'normal',
+                            fontWeight: 'bold',
+                        },
+                    },
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data: ['FAST', 'FAST_USP']
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            dataView: {
+                                show: true,
+                                readOnly: false
+                            },
+                            magicType: {
+                                show: true,
+                                type: ['bar']
+                            },
+                            restore: {
+                                show: true
+                            },
+                            saveAsImage: {
+                                show: true
+                            }
+                        }
+                    },
+                    calculable: true,
+                    xAxis: [{
+                        type: 'category',
+                        //name: 'min_sup(%)'
+                        data: ['1.2', '1.0', '0.8', '0.6', '0.4', '0.2'],
+                        name: 'min_sup(%)',
+                        position: 'left'
+                    }],
+                    yAxis: [{
+                        type: 'value',
+                        name: '运行时间(s)',
+                        position: 'left'
+                    }],
+                    series: [{
+                        name: 'FAST',
+                        type: 'bar',
+                        data: [19.5, 19.8, 21.7, 25.1, 32.5, 48.9],
+                        color: '#CC0066'
+                    },
+                        {
+                            name: 'FAST_USP',
+                            type: 'bar',
+                            data: [15.0, 16.6, 17.3, 17.4, 19.6, 22.7],
+                            color: '#009999' // 设置颜色
+                        }
+                    ]
+                };
+
+
+                // 为echarts对象加载数据
+                {#myChart.setOption(option);#}
+                myChart2.setOption(option2);
+            }
+        );
+    </script>
 {% endblock %}

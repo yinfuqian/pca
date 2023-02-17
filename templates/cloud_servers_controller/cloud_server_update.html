@@ -47,8 +47,9 @@
                 <div class="form-group row"><label class="col-sm-2 col-form-label">是否核对</label>
                     <div class="col-sm-10"><select class="form-control m-b" name="cloud_server_check">
                         <option>{{ cloud_obj.cloud_server_check }}</option>
-                        <option>是</option>
-                        <option>否</option>
+                        <option>等待开发确认</option>
+                        <option>等待测试确认</option>
+                        <option>已核对</option>
                     </select></div>
                 </div>
                 {#                登录方式#}
@@ -121,6 +122,7 @@
                         <option>{{ cloud_obj.cloud_server_project_region }}</option>
                         <option>南区</option>
                         <option>北区</option>
+                        <option>其他</option>
                     </select></div>
                 </div>
                 {#                项目归属/项目简称#}
