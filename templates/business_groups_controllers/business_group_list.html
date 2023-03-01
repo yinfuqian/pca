@@ -129,19 +129,4 @@
             }
         }
     </script>
-    <script>
-        function server_list(id) {
-            $.get("{% url 'cloud_servers_status' %}?id=" + id, function (data) {
-                    if (data.status == 0) {
-                        alert("更新成功")
-                        location.href = "{% url 'cloud_servers_list' %}"
-                    } else {
-                        alert("更新失败")
-                        location.href = "{% url 'cloud_servers_list' %}"
-                    }
-                }
-            )
-        }
-    </script>
-
 {% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block body %}
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>业务中心</h2>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href={% url 'index' %}>主页</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="{% url 'index' %}">业务中心</a>
+                </li>
+                <li class="breadcrumb-item active">
+                    <strong><a href="{% url 'project_controller_list' %}">项目管理</a></strong>
+                </li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="ibox-content">
+        <div class="alert alert-danger alert-dismissable">
+            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+            此页面不可编辑,如有数据错误请到修改页面修改即可!!!
+            <a href="javascript:history.back(-1)" type="submit">返回上一页</a>
+        </div>
+    </div>
+    <div class="bounceInRight">
+        {% for info in data %}
+            <span>项目类型:&nbsp;&nbsp;&nbsp;{{ info.project_type }}</span><br/>
+            <span>产品名称:&nbsp;&nbsp;&nbsp;{{ info.products_name }}</span><br/>
+            <span>部署类型:&nbsp;&nbsp;&nbsp;{{ info.products_install_type }}</span><br/>
+            <span>创建时间:&nbsp;&nbsp;&nbsp;{{ info.created_tm }}</span><br/>
+            <span>备注1:&nbsp;&nbsp;&nbsp;{{ info.remark }}</span><br/>
+            <span>备注2:&nbsp;&nbsp;&nbsp;{{ info.t_remark }}</span><br/>
+            <span>备注3:&nbsp;&nbsp;&nbsp;{{ info.m_remark }}</span><br/>
+            <span>备注4:&nbsp;&nbsp;&nbsp;{{ info.p_remark }}</span><br/>
+        {% endfor %}
+    </div>
+    </div>
+{% endblock %}

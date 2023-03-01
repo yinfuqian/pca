@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% block load_css %}
+    <link href="/static/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+{% endblock %}
+{% block body %}
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>业务中心</h2>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href={% url 'index' %}>主页</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="{% url 'index' %}">业务中心</a>
+                </li>
+                <li class="breadcrumb-item active">
+                    <a href="{% url 'project_controller_list' %}">项目管理</a>
+                </li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="col-lg-12">
+        <div class="ibox ">
+            <div>
+                <h4>更新项目: {{ project_obj.name }}</h4>
+            </div>
+
+            <form class="form-horizontal" id="submit_form">
+                {% csrf_token %}
+                <div><input type="text" style="display: none" name="id"
+                            value="{{ project_obj.id }}"></div>
+                <div class="form-group  row"><label class="col-sm-2 col-form-label">名称</label>
+                    <div class="col-sm-10"><input type="text" class="form-control" name="name" value="{{ project_obj.name }}"></div>
+                </div>
+                <div class="form-group row"><label class="col-sm-2 col-form-label">部署方式</label>
+                    <div class="col-sm-10"><select class="form-control m-b"
+                                                   name="products_install_type">
+                        <option>{{ project_obj.products_install_type }}</option>
+                        <option>Docker</option>
+                        <option>Tar</option>
+                        <option>Kubernetes</option>
+                        <option>其他(备注中说明)</option>
+                    </select></div>
+                </div>
+                <div class="form-group row"><label class="col-sm-2 col-form-label">项目类型</label>
+                    <div class="col-sm-10"><select class="form-control m-b"
+                                                   name="project_type">
+                        <option>{{ project_obj.project_type }}</option>
+                        <option>定制化</option>
+                        <option>主线</option>
+                        <option>其他(备注中说明)</option>
+                    </select></div>
+                </div>
+                <div class="form-group row"><label class="col-sm-2 col-form-label">产品类型</label>
+                    <div class="col-sm-10"><select class="form-control m-b" id="product_type_list"
+                                                   name="products_name">
+                        <option>{{ project_obj.products_name }}</option>
+                    </select></div>
+                </div>
+                <div class="form-group  row"><label class="col-sm-2 col-form-label">备注1</label>
+                    <div class="col-sm-10"><input type="text" class="form-control" name="remark" value="{{ project_obj.remark }}"></div>
+                </div>
+                <div class="form-group  row"><label class="col-sm-2 col-form-label">备注2</label>
+                    <div class="col-sm-10"><input type="text" class="form-control" name="t_remark" value="{{ project_obj.t_remark }}"></div>
+                </div>
+                <div class="form-group  row"><label class="col-sm-2 col-form-label">备注3</label>
+                    <div class="col-sm-10"><input type="text" class="form-control" name="m_remark" value="{{ project_obj.m_remark }}"></div>
+                </div>
+                <div class="form-group  row"><label class="col-sm-2 col-form-label">备注4</label>
+                    <div class="col-sm-10"><input type="text" class="form-control" name="p_remark" value="{{ project_obj.p_remark }}"></div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-4 col-sm-offset-2">
+                        <a class="btn btn-warning btn-sm " href="javascript:history.back(-1)" type="submit">取消</a>
+                        <button class="btn btn-primary btn-sm" type="submit">保存更改</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
+{% endblock %}
+
+{% block load_js %}
+    <script src="/static/js/plugins/validate/jquery.validate.min.js"></script>
+    <script src="/static/js/plugins/validate/messages_zh.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#submit_form").validate({
+                rules: {
+                    name: {
+                        required: true
+                    }
+                }, submitHandler: function () {
+                    var str = $('#submit_form').serialize();
+                    $.post('{% url 'project_controller_update' %}', str, function (res) {
+                        console.log(res)
+                        if (res.status == 0) {
+                            alert('更新成功')
+                            location.href = "{% url 'project_controller_list' %}"
+                        } else {
+                            alert('更新失败')
+                            location.href = "{% url 'project_controller_list' %}"
+                        }
+                    })
+                }
+            })
+        })
+    </script>
+{% endblock %}

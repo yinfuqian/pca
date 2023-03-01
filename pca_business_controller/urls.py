@@ -8,8 +8,15 @@
 from django.conf.urls import include
 from django.urls import re_path, path
 from .views import *
+from projects_controller.views import *
 
 urlpatterns = [
+    re_path(r'projects_controller/list/', ProjectsControllerListView.as_view(), name='project_controller_list'),
+    re_path(r'projects_controller/update/', ProjectsControllerUpdataView.as_view(), name='project_controller_update'),
+    re_path(r'projects_controller/delete/', ProjectsControllerDeleteView.as_view(), name='project_controller_delete'),
+    re_path(r'projects_controller/create/', ProjectsControllerCreateView.as_view(), name='project_controller_create'),
+    re_path(r'projects_controller/search/', ProjectsControllerSearchView.as_view(), name='project_controller_search'),
+    re_path(r'projects_controller/more/', ProjectsControllerMoreView.as_view(), name='project_controller_more'),
     # 项目组管理
     re_path(r'project_groups/list/', BusProjectsGroupListView.as_view(), name='projects_groups_list'),
     re_path(r'project_groups/update/', BusProjectsGroupUpdateView.as_view(), name='projects_groups_update'),

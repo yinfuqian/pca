@@ -15,7 +15,7 @@
                     <a href="{% url 'index' %}">业务中心</a>
                 </li>
                 <li class="breadcrumb-item active">
-                    <strong><a href="{% url 'projects_groups_list' %}">项目组管理</a></strong>
+                    <strong><a href="{% url 'project_controller_list' %}">项目管理</a></strong>
                 </li>
             </ol>
         </div>
@@ -25,14 +25,17 @@
         <div class="row m-b-sm m-t-sm">
             <div class="col-md-11">
                 <div class="input-group">
-                    <form class="navbar-form" method='get' action='{% url 'projects_groups_search' %}'>
-                        <input type='search' name='projects_groups_search' placeholder='名称' required
+                    <form class="navbar-form" method='get' action='{% url 'project_controller_search' %}'>
+                        <input type='search' name='project_controller_search' placeholder='名称'
                                class="input-sm">
-                        <button type='submit' class="btn btn-primary">搜索</button>
+                         <button type='submit' class="btn btn-primary">搜索</button>
+{#                        <input type='search' name='project_type' placeholder='项目类型'#}
+{#                               class="input-sm">#}
+{#                        <button type='submit' class="btn btn-primary">搜索</button>#}
                     </form>
                     <div>&nbsp;</div>
                     <div>
-                        <a href="{% url 'projects_groups_create' %}" class="btn btn-primary">创建项目组</a>
+                        <a href="{% url 'project_controller_create' %}" class="btn btn-primary">创建项目</a>
                     </div>
                 </div>
             </div>
@@ -44,27 +47,28 @@
             <div class="col-lg-12">
                 <div class="ibox ">
                     <div class="ibox-content">
-
-
                         <table class="footable table table-stripped toggle-arrow-tiny tablet breakpoint footable-loaded"
                                id="num">
                             <thead>
                             <tr>
                                 <th class="text-center">ID</th>
                                 <th class="text-center">名称</th>
-                                <th class="text-center">备注</th>
+                                <th class="text-center">项目类型</th>
+                                <th class="text-center">部署产品</th>
+                                <th class="text-center">部署类型</th>
                                 <th class="text-center">操作</th>
-
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
                                 <td class="text-center">{{ info.id }}</td>
                                 <td class="text-center">{{ info.name }}</td>
-                                <td class="text-center">{{ info.remark }}</td>
+                                <td class="text-center">{{ info.project_type }}</td>
+                                <td class="text-center">{{ info.products_name }}</td>
+                                <td class="text-center">{{ info.products_install_type }}</td>
                                 <td class="text-center">
                                     <a type="button" class="btn-primary btn-sm"
-                                       href="{% url 'projects_groups_update' %}?id={{ info.id }}">更新</a>
+                                       href="{% url 'project_controller_update' %}?id={{ info.id }}">更新</a>
                                     <a type="button" class="btn btn-danger btn-sm"
                                        onclick="server_delete({{ info.id }})">删除</a>
                                 </td>
@@ -76,21 +80,21 @@
                             <div class="btn-group">
                                 {% if page_obj.has_previous %}
                                     <a type="button" class="btn btn-white"
-                                       href="{% url 'projects_groups_list' %}?page={{ page_obj.previous_page_number }}"><i
+                                       href="{% url 'project_controller_list' %}?page={{ page_obj.previous_page_number }}"><i
                                             class="fa fa-chevron-left"></i></a>
                                 {% endif %}
                                 {% for page in page_range %}
                                     {% if page_obj.number == page %}
                                         <a class="btn btn-white active"
-                                           href="{% url 'projects_groups_list' %}?page={{ page }}">{{ page }}</a>
+                                           href="{% url 'project_controller_list' %}?page={{ page }}">{{ page }}</a>
                                     {% else %}
                                         <a class="btn btn-white"
-                                           href="{% url 'projects_groups_list' %}?page={{ page }}">{{ page }}</a>
+                                           href="{% url 'project_controller_list' %}?page={{ page }}">{{ page }}</a>
                                     {% endif %}
                                 {% endfor %}
                                 {% if page_obj.has_next %}
                                     <a type="button" class="btn btn-white"
-                                       href="{% url 'projects_groups_list' %}?page={{ page_obj.next_page_number }}"><i
+                                       href="{% url 'project_controller_list' %}?page={{ page_obj.next_page_number }}"><i
                                             class="fa fa-chevron-right"></i></a>
                                 {% endif %}
                             </div>
@@ -116,30 +120,16 @@
     <script>
         function server_delete(id) {
             if (confirm('确定删除吗？')) {
-                $.get("{% url 'projects_groups_delete' %}?id=" + id, function (data) {
+                $.get("{% url 'project_controller_delete' %}?id=" + id, function (data) {
                     if (data.status == 0) {
                         alert("删除成功")
-                        location.href = "{% url 'projects_groups_list' %}"
+                        location.href = "{% url 'project_controller_list' %}"
                     } else {
                         alert("删除失败")
-                        location.href = "{% url 'projects_groups_list' %}"
+                        location.href = "{% url 'project_controller_list' %}"
                     }
                 })
             }
-        }
-    </script>
-    <script>
-        function server_list(id) {
-            $.get("{% url 'cloud_servers_status' %}?id=" + id, function (data) {
-                    if (data.status == 0) {
-                        alert("更新成功")
-                        location.href = "{% url 'cloud_servers_list' %}"
-                    } else {
-                        alert("更新失败")
-                        location.href = "{% url 'cloud_servers_list' %}"
-                    }
-                }
-            )
         }
     </script>
 

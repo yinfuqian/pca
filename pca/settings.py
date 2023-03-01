@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'pca_static_capitals',
     'pca_business_controller',
     'pca_system_controller',
+    'projects_controller',
     'dashboard',
 ]
 
@@ -77,8 +78,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'pca',
-        'USER': 'root',
-        'PASSWORD': 'admin1234',
+        'USER': 'admin',
+        'PASSWORD': 'admin123456',
         'HOST': '172.16.20.153',
         'PORT': '3306',
         'OPTIONS': {
