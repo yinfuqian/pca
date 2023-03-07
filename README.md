@@ -65,11 +65,10 @@ python3 manage.py runserver
 默认为8000 端口
 ## api
 http://172.16.20.153/api/list
-
--------------------------------------------------------------------------------------------
-![img_1.png](img_1.png)
-![img_2.png](img_2.png)
-![img_3.png](img_3.png)
-![img_4.png](img_4.png)
-![img_5.png](img_5.png)
-![img_6.png](img_6.png)
+----------------------------------------------------------分割线-----------------------------------------------
+![image](https://user-images.githubusercontent.com/43942747/223389859-923c2254-33fe-4d9b-a386-a5cdc5f34c56.png)
+![image](https://user-images.githubusercontent.com/43942747/223389886-30684764-e3be-4ac8-9bb8-8e2e84f9b195.png)
+![image](https://user-images.githubusercontent.com/43942747/223389909-e9c2c902-fe26-4489-a7ab-2b2e7a6f7f37.png)
+![image](https://user-images.githubusercontent.com/43942747/223389935-50b3b224-f0da-4ee5-93dc-36ee954d426c.png)
+![image](https://user-images.githubusercontent.com/43942747/223389959-5629ecaf-84c7-4653-ad26-4f08b30e678f.png)
+![image](https://user-images.githubusercontent.com/43942747/223389974-de4cf901-bc5b-4e72-91bc-cf1a7fe47802.png)
