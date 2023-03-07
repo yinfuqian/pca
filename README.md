@@ -5,7 +5,7 @@
 - pip 23.0
 - mysql 5.7.41
 - redis 暂无
-
+- jquery 3.1.1
 ## 安装说明
 · 修改数据库配置
 /pca/pca/settings.py
@@ -65,6 +65,8 @@ python3 manage.py runserver
 默认为8000 端口
 ## api
 http://172.16.20.153/api/list
+
+## 给点图
 ----------------------------------------------------------分割线-----------------------------------------------
 ![image](https://user-images.githubusercontent.com/43942747/223389859-923c2254-33fe-4d9b-a386-a5cdc5f34c56.png)
 ![image](https://user-images.githubusercontent.com/43942747/223389886-30684764-e3be-4ac8-9bb8-8e2e84f9b195.png)
