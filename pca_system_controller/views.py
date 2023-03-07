@@ -4,6 +4,7 @@ from django.http import JsonResponse, request, HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView, ListView, View
 from .models import *
+
 """
 用户管理
 """
@@ -22,7 +23,7 @@ class UserListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(UserListView, self).get_context_data(**kwargs)
         context['page_range'] = self.page_range(context['page_obj'], context['paginator'])
-        print(context)
+        # print(context)
         return context
 
     def page_range(self, page_obj, paginator):
@@ -35,16 +36,19 @@ class UserListView(ListView):
             end = paginator.num_pages + 1
         return range(start, end)
 
+
 # 用户搜索
 class UserSearch(View):
     def get(self, request):
         data = request.GET
         print(request.GET.get('user_name'))
         try:
-            return render(request, 'account/user_search.html', {'info': PcaUserController.objects.get(username=request.GET.get('user_name'))})
+            return render(request, 'account/user_search.html',
+                          {'info': PcaUserController.objects.get(username=request.GET.get('user_name'))})
         except Exception as e:
             print(e)
             return render(request, 'account/user_list.html')
+
 
 # 添加用户
 class UserAddView(TemplateView):
@@ -88,7 +92,8 @@ class UserUpdateView(View):
     def get(self, request):
         data = request.GET
         # print(PcaUserController.objects.get(id=request.GET.get('id')))
-        return render(request, 'account/user_edit.html', {'user_obj': PcaUserController.objects.get(id=request.GET.get('id'))})
+        return render(request, 'account/user_edit.html',
+                      {'user_obj': PcaUserController.objects.get(id=request.GET.get('id'))})
 
     def post(self, request):
         data = request.POST
@@ -103,7 +108,8 @@ class UserUpdateView(View):
             is_superuser = data.get('is_sup')
             role = data.get('account')
             PcaUserController.objects.filter(id=data.get("id")).update(username=username, email=email, phone=phone,
-                                                             is_active=is_active, is_superuser=is_superuser, role=role)
+                                                                       is_active=is_active, is_superuser=is_superuser,
+                                                                       role=role)
 
         except Exception as e:
             print(e)
@@ -136,11 +142,9 @@ class UserStatus(View):
 
 
 # SSH用户展示
-class SSHListView(ListView):
-    template_name = 'account/ssh_user_list.html'
-    model = PcaSshUserController
-    ordering = 'id'
-    paginate_by = 8  # 单页显示
-
-    def get_ordering(self):
-        return self.request.GET.get('ordering', 'id')
+class SSHListView(View):
+    def get(self, request):
+        ret = PcaSshUserController.objects.all().order_by('id')
+        print(ret)
+        return render(request, 'account/ssh_user_list.html',
+                      {'users': ret})

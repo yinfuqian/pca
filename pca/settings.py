@@ -79,7 +79,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'pca',
         'USER': 'admin',
-        'PASSWORD': 'admin123456',
+        'PASSWORD': 'admin1234',
         'HOST': '172.16.20.153',
         'PORT': '3306',
         'OPTIONS': {
@@ -89,20 +89,20 @@ DATABASES = {
     },
 }
 
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://172.16.20.153:6379/0",
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            "PASSWORD": "liubei@161"
-        }
-    }
-}
-# 配置session会话引擎（默认：django.contrib.sessions.backends.db存储在表django_session中）
-SESSION_ENGINE = "django.contrib.sessions.backends.cache"
-# 设置cookie的有效期(默认1209600：两周)
-SESSION_COOKIE_AGE = 86400  #一天
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": "redis://172.16.20.153:6379/0",
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#             "PASSWORD": "liubei@161"
+#         }
+#     }
+# }
+# # 配置session会话引擎（默认：django.contrib.sessions.backends.db存储在表django_session中）
+# SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+# # 设置cookie的有效期(默认1209600：两周)
+# SESSION_COOKIE_AGE = 86400  #一天
 
 AUTH_PASSWORD_VALIDATORS = [
     {

@@ -134,5 +134,10 @@ class ProjectsControllerSearchView(View):
 
 
 # more
-class ProjectsControllerMoreView(TemplateView):
-    template_name = "projects_controller/projects_controller_more.html"
+class ProjectsControllerMoreView(View):
+
+    def get(self, request):
+        data = ProjectsController.objects.filter(id=request.GET.get('id'))
+        print(data)
+        return render(request, 'projects_controller/projects_controller_more.html', {'data': data})
+
